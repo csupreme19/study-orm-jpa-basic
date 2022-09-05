@@ -19,17 +19,17 @@ public class JpaMain {
         tx.begin();
 
         try {
-            // 엔티티 생성
-//            Member member = new Member();
-//            member.setId(1L);
-//            member.setName("HelloA");
+            // 엔티티 생성(비영속 상태)
+            Member member = new Member();
+            member.setId(2L);
+            member.setName("HelloA");
 
             // 엔티티 조회
 //            Member findMember = em.find(Member.class, 1L);
             // 엔티티 수정
 //            findMember.setName("HelloJPA");
 //            System.out.printf("Member(%d, %s)\n", findMember.getId(), findMember.getName());
-            // 엔티티 삭제
+            // 엔티티 삭제(삭제 상태)
 //            em.remove(findMember);
 
             // JPQL(대상이 테이블이 아니라 객체)
@@ -39,13 +39,20 @@ public class JpaMain {
                     .setMaxResults(8)   // limit (pagination)
                     .getResultList();
 
-            for(Member member : resultList) {
-                System.out.printf("Member(%d, %s)\n", member.getId(), member.getName());
+            for(Member m : resultList) {
+                System.out.printf("Member(%d, %s)\n", m.getId(), m.getName());
             }
 
-            // 엔티티 매니저에 엔티티 영속
-//            em.persist(member);
+            // 영속성 컨텍스트에 엔티티 저장(영속 상태)
+            System.out.println("=== BEFORE ===");
+            em.persist(member);
+            System.out.println("=== AFTER ===");
+
+            // 엔티티 영속성 컨텍스트에서 분리(준영속 상태)
+            em.detach(member);
+
             // 트랜잭션 커밋(DB에 반영)
+            // 이 시점에 실제 영속성 컨텍스트에 저장된 객체 쿼리가 DB에 날라간다.
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();
