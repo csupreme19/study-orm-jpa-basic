@@ -24,12 +24,22 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeamId(team.getId());
+//            member.setTeamId(team.getId());
+            member.setTeam(team);
             em.persist(member);
 
+//            em.flush();
+//            em.clear();
             Member findMember = em.find(Member.class, member.getId());
-            Long findTeamId = findMember.getTeamId();
-            Team findTeam = em.find(Team.class, findTeamId);
+
+            // 테이블 관점 모델링
+//            Long findTeamId = findMember.getTeamId();
+//            Team findTeam = em.find(Team.class, findTeamId);
+
+            // 객체 관점 모델링
+            Team findTeam = findMember.getTeam();
+            findTeam.setName("TeamB");
+
             System.out.println("team("  + findTeam.getId() + ", " + findTeam.getName() + ")");
 
             // 트랜잭션 커밋(내부적으로 flush)
