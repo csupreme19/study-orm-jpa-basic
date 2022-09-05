@@ -48,10 +48,10 @@ public class JpaMain {
 //            em.persist(member);
 
             // Select 쿼리가 한번만 실행됨(1차 캐시)
-            Member member2 = em.find(Member.class, 1L);
+//            Member member2 = em.find(Member.class, 1L);
             // 이후 같은 객체 조회시 1차 캐시에서 가져오므로 쿼리 실행 X
-            em.clear();
-            Member member3 = em.find(Member.class, 1L);
+//            em.clear();
+//            Member member3 = em.find(Member.class, 1L);
             // 1차 캐시에는 항상 같은 객체가 존재하므로 엔티티의 동일성 보장
 //            System.out.println("result = " + (member2 == member3));
 
@@ -72,23 +72,23 @@ public class JpaMain {
 //            em.persist(member4);
 //            em.persist(member5);
 
-            Member member = new Member(210L, "member210");
+//            Member member = new Member(210L, "member210");
 //            em.persist(member);
 
             // flush 호출시 commit 수행 이전에 DB에 반영
 //            em.flush();
 //            em.detach(member);
-            member.setName("hi");
+//            member.setName("hi");
 
             // JPQL 호출시 flush
-            em.createQuery("select m from Member as m", Member.class)
-                    .getResultList();
+//            em.createQuery("select m from Member as m", Member.class)
+//                    .getResultList();
 
             // 트랜잭션 커밋(DB에 반영)
             // 이 시점에 실제 영속성 컨텍스트에 저장된 객체 쿼리가 DB에 날라간다.
-            System.out.println("===BEFORE COMMIT===");
+//            System.out.println("===BEFORE COMMIT===");
             tx.commit();
-            System.out.println("===AFTER COMMIT===");
+//            System.out.println("===AFTER COMMIT===");
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
