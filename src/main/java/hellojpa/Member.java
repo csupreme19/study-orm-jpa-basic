@@ -4,13 +4,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Member")
-@SequenceGenerator(name = "MEMBER_SEQ_GENERATOR"
-        , sequenceName = "MEMBER_SEQ"
+@TableGenerator(name = "MEMBER_SEQ_GENERATOR"
+        , table = "MY_SEQUENCES"
         , allocationSize = 1)
 public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE
+    @GeneratedValue(strategy = GenerationType.TABLE
             , generator = "MEMBER_SEQ_GENERATOR")
     private Long id;
 
