@@ -18,25 +18,19 @@ public class JpaMain {
         tx.begin();
 
         try {
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-//            // 비영속 엔티티 객체 생성
-//            Member member = new Member();
-//            member.setName("A");
-//            Member member2 = new Member();
-//            member2.setName("B");
-//            Member member3 = new Member();
-//            member3.setName("C");
-//
-//            // 영속성 컨텍스트 저장
-//            em.persist(member); // 1, 51
-//            em.persist(member2); // MEM
-//            em.persist(member3); // MEM
+            Member member = new Member();
+            member.setUsername("member1");
+            member.setTeamId(team.getId());
+            em.persist(member);
 
-            for(int i=1; i<=52; i++) {
-                Member member = new Member();
-                member.setName("member" + i);
-                em.persist(member);
-            }
+            Member findMember = em.find(Member.class, member.getId());
+            Long findTeamId = findMember.getTeamId();
+            Team findTeam = em.find(Team.class, findTeamId);
+            System.out.println("team("  + findTeam.getId() + ", " + findTeam.getName() + ")");
 
             // 트랜잭션 커밋(내부적으로 flush)
             System.out.println("=====BEFORE COMMIT===");
