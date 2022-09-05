@@ -19,21 +19,29 @@ public class JpaMain {
 
         try {
 
-            // 비영속 엔티티 객체 생성
-            Member member = new Member();
-//            member.setId("ID_A");
-            member.setName("C");
+//            // 비영속 엔티티 객체 생성
+//            Member member = new Member();
+//            member.setName("A");
+//            Member member2 = new Member();
+//            member2.setName("B");
+//            Member member3 = new Member();
+//            member3.setName("C");
+//
+//            // 영속성 컨텍스트 저장
+//            em.persist(member); // 1, 51
+//            em.persist(member2); // MEM
+//            em.persist(member3); // MEM
 
-            Member member2 = new Member();
-//            member.setId("ID_A");
-            member2.setName("D");
-
-            // 영속성 컨텍스트 저장
-            em.persist(member);
-            em.persist(member2);
+            for(int i=1; i<=52; i++) {
+                Member member = new Member();
+                member.setName("member" + i);
+                em.persist(member);
+            }
 
             // 트랜잭션 커밋(내부적으로 flush)
+            System.out.println("=====BEFORE COMMIT===");
             tx.commit();
+            System.out.println("=====AFTER COMMIT===");
         } catch (Exception e) {
             e.printStackTrace();
             tx.rollback();
