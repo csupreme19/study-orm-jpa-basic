@@ -1,10 +1,9 @@
 package hellojpa;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.EntityTransaction;
-import javax.persistence.Persistence;
-import java.time.LocalDateTime;
+import org.hibernate.Hibernate;
+import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
+
+import javax.persistence.*;
 
 public class JpaMain {
 
@@ -20,14 +19,20 @@ public class JpaMain {
 
         try {
 
-            Member member = new Member();
-            member.setUsername("user1");
-            member.setCreatedBy("Choi");
-            member.setCreatedAt(LocalDateTime.now());
-            member.setModifiedBy("Kim");
-            member.setModifiedAt(LocalDateTime.now());
+            Member member1 = new Member();
+            member1.setUsername("member1");
 
-            em.persist(member);
+            em.persist(member1);
+
+            em.flush();
+            em.clear();
+
+            Member reference1 = em.getReference(Member.class, member1.getId());
+            System.out.println("reference1.getClass(): " + reference1.getClass());
+
+            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(reference1));
+            Hibernate.initialize(reference1);
+            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(reference1));
 
             tx.commit();
         } catch (Exception e) {
