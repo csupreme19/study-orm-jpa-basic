@@ -25,17 +25,23 @@ public class JpaMain {
 
             Member member = new Member();
             member.setUsername("member1");
-            member.setTeam(team);
             em.persist(member);
 
-            em.flush();
-            em.clear();
+            // 양방향 매핑의 경우 양쪽에 데이터를 넣어주는 것이 좋다.
+            // 연관관계 편의 메소드로 대체
+//            team.getMembers().add(member);
 
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
+//            member.changeTeam(team);
+            team.addMember(member);
+
+//            em.flush();
+//            em.clear();
+
+            Team team1 = em.find(Team.class, team.getId()); // 1차 캐시
+            List<Member> members = team1.getMembers();
 
             for(Member m : members) {
-                System.out.println("m("  + m.getId()+ ", " + m.getUsername() + ")");
+                System.out.println("m=" +  m.getUsername());
             }
 
             // 트랜잭션 커밋(내부적으로 flush)
