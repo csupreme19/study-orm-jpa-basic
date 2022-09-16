@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public abstract class BaseEntity {
 
-    @Column(name = "INSERT_MEMBER")
+//    @Column(name = "INSERT_MEMBER")
     private String createdBy;
     private LocalDateTime createdAt;
-    @Column(name = "UPDATE_MEMBER")
+//    @Column(name = "UPDATE_MEMBER")
     private String modifiedBy;
     private LocalDateTime modifiedAt;
 
