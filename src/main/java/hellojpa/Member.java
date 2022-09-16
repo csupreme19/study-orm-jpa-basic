@@ -28,6 +28,26 @@ public class Member extends BaseEntity {
     @Embedded
     private Address homeAddress;
 
+    // 같은 임베디드 값 타입 사용시 중복 컬럼 매핑으로 오버라이딩 필요
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name="city",
+                    column=@Column(name = "WORK_CITY")),
+            @AttributeOverride(name="street",
+                    column=@Column(name = "WORK_STREET")),
+            @AttributeOverride(name="zipcode",
+                    column=@Column(name = "WORK_ZIPCODE"))
+    })
+    private Address workAddress;
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
+    }
+
     public Period getWorkPeriod() {
         return workPeriod;
     }

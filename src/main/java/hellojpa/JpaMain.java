@@ -1,11 +1,10 @@
 package hellojpa;
 
-import org.hibernate.Hibernate;
-import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
-
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class JpaMain {
 
@@ -24,7 +23,9 @@ public class JpaMain {
             Member member = new Member();
             member.setUsername("test");
             member.setHomeAddress(new Address("city", "street", "zipcode"));
+            member.setWorkAddress(new Address("work_city", "work_street", "work_zipcode"));
             member.setWorkPeriod(new Period(LocalDateTime.now(), LocalDateTime.now()));
+            member.setWorkPeriod(null);
 
             em.persist(member);
 
