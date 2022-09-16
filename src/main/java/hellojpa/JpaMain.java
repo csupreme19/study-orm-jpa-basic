@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.hibernate.jpa.internal.PersistenceUnitUtilImpl;
 
 import javax.persistence.*;
+import java.util.List;
 
 public class JpaMain {
 
@@ -18,21 +19,6 @@ public class JpaMain {
         tx.begin();
 
         try {
-
-            Member member1 = new Member();
-            member1.setUsername("member1");
-
-            em.persist(member1);
-
-            em.flush();
-            em.clear();
-
-            Member reference1 = em.getReference(Member.class, member1.getId());
-            System.out.println("reference1.getClass(): " + reference1.getClass());
-
-            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(reference1));
-            Hibernate.initialize(reference1);
-            System.out.println("isLoaded = " + emf.getPersistenceUnitUtil().isLoaded(reference1));
 
             tx.commit();
         } catch (Exception e) {
