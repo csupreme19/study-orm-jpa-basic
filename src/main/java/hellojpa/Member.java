@@ -1,6 +1,12 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @SequenceGenerator(name = "MEMBER_SEQ"
@@ -38,31 +44,25 @@ public class Member extends BaseEntity {
             @AttributeOverride(name="zipcode",
                     column=@Column(name = "WORK_ZIPCODE"))
     })
+
     private Address workAddress;
+    @ElementCollection
+    @CollectionTable(name = "FAVORITE_FOOD", joinColumns =
+    @JoinColumn(name = "MEMBER_ID")
+    )
+    @Column(name = "FOOD_NAME")
+    private Set<String> favoriteFoods = new HashSet<>();
 
-    public Address getWorkAddress() {
-        return workAddress;
-    }
+//    @ElementCollection
+//    @CollectionTable(name = "ADDRESS", joinColumns =
+//    @JoinColumn(name = "MEMBER_ID")
+//    )
+//    private List<Address> addressHistroy = new ArrayList<>();
 
-    public void setWorkAddress(Address workAddress) {
-        this.workAddress = workAddress;
-    }
-
-    public Period getWorkPeriod() {
-        return workPeriod;
-    }
-
-    public void setWorkPeriod(Period workPeriod) {
-        this.workPeriod = workPeriod;
-    }
-
-    public Address getHomeAddress() {
-        return homeAddress;
-    }
-
-    public void setHomeAddress(Address homeAddress) {
-        this.homeAddress = homeAddress;
-    }
+    @OneToMany(cascade = ALL
+            , orphanRemoval = true
+            , mappedBy = "member")
+    private List<AddressEntity> addressHistroy = new ArrayList<>();
 
     public Long getId() {
         return id;
@@ -86,6 +86,47 @@ public class Member extends BaseEntity {
 
     public void setTeam(Team team) {
         this.team = team;
+    }
+
+    public Period getWorkPeriod() {
+        return workPeriod;
+    }
+
+    public void setWorkPeriod(Period workPeriod) {
+        this.workPeriod = workPeriod;
+    }
+
+    public Address getHomeAddress() {
+        return homeAddress;
+    }
+
+    public void setHomeAddress(Address homeAddress) {
+        this.homeAddress = homeAddress;
+    }
+
+    public Address getWorkAddress() {
+        return workAddress;
+    }
+
+    public void setWorkAddress(Address workAddress) {
+        this.workAddress = workAddress;
+    }
+
+    public Set<String> getFavoriteFoods() {
+        return favoriteFoods;
+    }
+
+    public void setFavoriteFoods(Set<String> favoriteFoods) {
+        this.favoriteFoods = favoriteFoods;
+    }
+
+
+    public List<AddressEntity> getAddressHistroy() {
+        return addressHistroy;
+    }
+
+    public void setAddressHistroy(List<AddressEntity> addressHistroy) {
+        this.addressHistroy = addressHistroy;
     }
 
     public void changeTeam(Team team) {
